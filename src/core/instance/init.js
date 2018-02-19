@@ -35,8 +35,10 @@ export function initMixin (Vue: Class<Component>) {
       // internal component options needs special treatment.
       initInternalComponent(vm, options)
     } else {
+
+      // use default strat: shallow copy
       vm.$options = mergeOptions(
-        resolveConstructorOptions(vm.constructor),
+        resolveConstructorOptions(vm.constructor), // return Vue.options
         options || {},
         vm
       )
@@ -49,12 +51,51 @@ export function initMixin (Vue: Class<Component>) {
     }
     // expose real self
     vm._self = vm
+
+    // ./lifecycle
+    // vm.$parent = parent      (while options.parent && options.parent.abstract)
+    // vm.$root = parent ? parent.$root : vm
+    //
+    // vm.$children = []
+    // vm.$refs = {}
+    //
+    // vm._watcher = null
+    // vm._inactive = null
+    // vm._directInactive = false
+    // vm._isMounted = false
+    // vm._isDestroyed = false
+    // vm._isBeingDestroyed = false
     initLifecycle(vm)
+
+    // ./event
+    // vm._events = Object.create(null)
+    // vm._hasHookEvent = false
     initEvents(vm)
+
+    // ./render
+    // vm.$vnode = null
+    // vm._vnode = null
+    // vm._staticTrees = null
+    // vm.$slots
+    // vm.$scopedSlots
+    // vm._c = (a, b, c, d) => createElement(vm, a, b, c, d, false)
+    // vm.$createElement = (a, b, c, d) => createElement(vm, a, b, c, d, true)
     initRender(vm)
+
     callHook(vm, 'beforeCreate')
+
+    // ./inject
     initInjections(vm) // resolve injections before data/props
+
+    // ./state
+    // vm._watchers = []
+    // call initProps
+    // call initMethods
+    // call initData
+    // call initComputed
+    // call initWatch
     initState(vm)
+
     initProvide(vm) // resolve provide after data/props
     callHook(vm, 'created')
 

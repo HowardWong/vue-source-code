@@ -142,7 +142,21 @@ function initData (vm: Component) {
         vm
       )
     } else if (!isReserved(key)) {
-      proxy(vm, `_data`, key)
+      // proxy this[key] => this._data[key]
+      /**
+
+      function proxy (target: Object, sourceKey: string, key: string) {
+        sharedPropertyDefinition.get = function proxyGetter () {
+          return this[sourceKey][key]
+        }
+        sharedPropertyDefinition.set = function proxySetter (val) {
+          this[sourceKey][key] = val
+        }
+        Object.defineProperty(target, key, sharedPropertyDefinition)
+      }
+
+      */
+        proxy(vm, `_data`, key)
     }
   }
   // observe data
