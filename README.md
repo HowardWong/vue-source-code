@@ -387,3 +387,43 @@ function defineReactive (
 ```
 
 ### vm.$mount
+
+- src/platforms/web/entry-runtime-with-compiler.js
+
+```javascript
+const mount = Vue.prototype.$mount
+~
+
+if (!options.render) {
+  const { render, staticRenderFns } = compileToFunctions(template, {
+    shouldDecodeNewlines,
+    delimiters: options.delimiters,
+    comments: options.comments
+  }, this)
+}
+
+return mount.call(this, el, hydrating)
+```
+
+- src/compiler/index.js
+
+```javascript
+function baseCompile (
+  template: string,
+  options: CompilerOptions
+): CompiledResult {
+  const ast = parse(template.trim(), options)
+  optimize(ast, options)
+  const code = generate(ast, options)
+  return {
+    ast,
+    render: code.render,
+    staticRenderFns: code.staticRenderFns
+  }
+}
+```
+
+- src/compiler/parser/index.js
+
+```javascript
+```

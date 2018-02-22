@@ -34,6 +34,7 @@ Vue.prototype.$mount = function (
   // resolve template/el and convert to render function
   if (!options.render) {
     let template = options.template
+    debugger;
     if (template) {
       if (typeof template === 'string') {
         if (template.charAt(0) === '#') {
