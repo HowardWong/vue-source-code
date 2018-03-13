@@ -424,6 +424,3 @@ function baseCompile (
 ```
 
 - src/compiler/parser/index.js
-
-```javascript
-```
